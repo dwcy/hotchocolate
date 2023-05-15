@@ -1,0 +1,58 @@
+trigger:
+  branches:
+    include:
+    - 'main'
+    - '*'
+
+pool:
+  name: Azure Pipelines
+  vmImage: 'windows-latest'
+  variables:
+    buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '**/*.sln'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: 'build'
+    projects: '**/*.Api.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: 'test'
+    projects: |
+     '**/*[Tt]ests/*.csproj'
+     '**/*[Tt]est.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
+
+#- task: alanwales.resharper-code-analysis.custom-build-task.ResharperCli@2
+#  displayName: 'Automated code quality checks'
+#  inputs:
+#    solutionOrProjectPath: '**/*.sln'
+#  enabled: true
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/*.Api.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+    zipAfterPublish: True
+  enabled: true
+  continueOnError: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
+

@@ -1,0 +1,10 @@
+{
+	products(first: 1)
+	{
+		totalCount,
+		nodes {
+			name
+		}
+	}
+}
+

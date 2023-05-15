@@ -1,0 +1,10 @@
+global using AutoMapper;
+global using FluentAssertions;
+global using HotChocolate;
+global using HotChocolate.Execution;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using Newtonsoft.Json;
+global using NUnit.Framework;
+global using System.Globalization;
+global using System.Security.Claims;
