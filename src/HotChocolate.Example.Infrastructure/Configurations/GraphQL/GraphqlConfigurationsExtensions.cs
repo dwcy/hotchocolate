@@ -19,7 +19,7 @@ public static class GraphqlConfigurationsExtensions
 			.AddGraphQLServer() //creating hotchocolate graph server
 			.AddDataAnnotationsValidator() //auto validates models in middleware (no need to use modelstate is valid)
 			.RegisterDbContext<AdventureWorksContext>() //Hot chocolate can query the database context
-			//.AddAuthorization() //auth middleware for graphql
+														//.AddAuthorization() //auth middleware for graphql
 			.AddQueryType<BaseQuery>() //Base querty will create a path in the graph ui /query/... where all mutations exists
 			.AddMutationType<BaseMutation>() //Base mutations will create a path in the graph ui /mutations/... where all mutations exists
 			.AddTypeExtension<ProductQueries>() //your graph controller containing Query endpoints

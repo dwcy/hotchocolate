@@ -20,7 +20,7 @@ public static class RunEFMigrationExtension
 			//context.Database.EnsureCreated();
 			context.Database.Migrate();
 		}
-		catch (SqlException error)  { throw error; /* handle error */}
+		catch (SqlException error) { throw error; /* handle error */}
 		catch (Exception error) { throw error; /* handle error */}
 
 		return app;
