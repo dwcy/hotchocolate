@@ -1,0 +1,21 @@
+﻿{
+  "schema": "schema.graphql",
+  "documents": "**/*.graphql",
+  "extensions": {
+    "strawberryShake": {
+        "name": "GraphProxyClientApi",
+        "url": "https://localhost:5000/graphql",
+        "namespace": "BackendServices.GraphClients",
+        "records": {
+            "inputs": false,
+            "entities": false
+        },
+        "transportProfiles": [
+            {
+                "default": "Http",
+                "subscription": "WebSocket"
+            }
+        ]
+    }
+  }
+}
