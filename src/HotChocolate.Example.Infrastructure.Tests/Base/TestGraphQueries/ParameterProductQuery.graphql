@@ -1,0 +1,7 @@
+query GetProduct($productName: string!) {
+  Product(productName: $productName) {
+    productId,
+    name,
+    productNumber
+  }
+}

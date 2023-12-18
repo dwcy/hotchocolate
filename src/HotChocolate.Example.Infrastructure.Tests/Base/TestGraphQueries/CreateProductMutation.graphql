@@ -1,0 +1,10 @@
+mutation {
+  createProduct(createProduct: {
+    name: "Kassler",
+    productNumber: 10000
+  }) {
+    productId,
+    name,
+    productNumber
+  }
+}

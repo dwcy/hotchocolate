@@ -51,3 +51,30 @@ HotChocolate v13
 - [.NET 7.x](https://github.com/aspnet/Home)
 - [Entity Framework Core](https://www.entityframeworktutorial.net/efcore/entity-framework-core.aspx)
 - [HotChocolate](https://chillicream.com/docs/hotchocolate/v13)
+
+
+# Strawberry Cake graph client guide
+Start with installing dotnet manifest
+> cd /[client project]
+then run 
+> dotnet new tool-manifest
+this creates a local manifest file in the .config folder
+then run
+> dotnet tool install StrawberryShake.tools --local 
+that should update the manifest with code like 
+'''
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "strawberryshake.tools": {
+      "version": "13.7.0",
+      "commands": [
+        "dotnet-graphql"
+      ]
+    }
+  }
+}
+'''
+then final step generate the schema using following command...
+> dotnet graphql init https://localhost:5000/graphql
