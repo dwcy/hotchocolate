@@ -1,3 +1,4 @@
+using HotChocolate.Example.Domain.Entities;
 using HotChocolate.Example.Domain.Products.Contracts;
 using HotChocolate.Example.Domain.Products.DTO;
 using HotChocolate.Example.Domain.Products.Interfaces;
@@ -15,26 +16,35 @@ public class ProductAdapter : IProductAdapter
 		_mapper = mapper;
 	}
 
-	public async Task<ProductDto> GetProductById(int ProductId) => await _ProductRepository.GetProduct(ProductId);
+	public async Task<ProductDto> GetProductById(int productId) => await _ProductRepository.GetProduct(productId);
 
 	public IQueryable<ProductDto> GetProductsQueryable() => _ProductRepository.GetProductQueryable();
 
-	public async Task<ProductDto> CreateProduct(ProductCreateRequest Product)
+	public async Task<ProductResponse> CreateProduct(ProductCreateRequest productRequest)
 	{
-		var mappedToProduct = _mapper.Map<Product>(Product);
+		var mappedToProduct = _mapper.Map<Product>(productRequest);
 
-		return await _ProductRepository.CreateProduct(mappedToProduct);
+		var productDto = await _ProductRepository.CreateProduct(mappedToProduct);
+
+		var productResponse = _mapper.Map<ProductResponse>(productDto);
+
+		return productResponse;
 	}
 
-	public async Task<ProductDto> UpdateProduct(ProductDto Product)
+	public async Task<ProductResponse> UpdateProduct(ProductUpdateRequest productRequest)
 	{
-		var mappedToProduct = _mapper.Map<Product>(Product);
+		var product = _mapper.Map<Product>(productRequest);
 
-		return await _ProductRepository.UpdateProduct(mappedToProduct);
+		var productDto = await _ProductRepository.UpdateProduct(product);
+
+		var productResponse = _mapper.Map<ProductResponse>(productDto);
+
+		return productResponse;
 	}
 
-	public Task<ProductDto> UpdateProduct(ProductUpdateRequest product)
+	public async Task<bool> RemoveProduct(int productId)
 	{
-		throw new NotImplementedException();
+		var success = await _ProductRepository.RemoveProduct(productId);
+		return success;
 	}
 }

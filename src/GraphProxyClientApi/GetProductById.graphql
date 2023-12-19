@@ -1,7 +1,7 @@
-query GetProductById($id: Int!){
-  product(productId:$id) {
+query GetProductById($productId: Int!){
+  product(productId:$productId) {
     productId
-    name,
+    name
     productNumber
   }
 }

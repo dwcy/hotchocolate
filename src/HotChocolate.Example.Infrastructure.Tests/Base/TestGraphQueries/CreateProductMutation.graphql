@@ -1,6 +1,6 @@
 mutation {
-  createProduct(createProduct: {
-    name: "Kassler",
+  createProduct(product: {
+    name: "Saffron",
     productNumber: 10000
   }) {
     productId,

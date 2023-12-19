@@ -14,7 +14,7 @@ public static class RunEFMigrationExtension
 	{
 		try
 		{
-			var dbContext = app.Services.GetRequiredService<IDbContextFactory<AdventureWorksContext>>();
+			var dbContext = app?.Services.GetRequiredService<IDbContextFactory<AdventureWorksContext>>();
 
 			using var context = dbContext.CreateDbContext();
 			//context.Database.EnsureCreated();

@@ -1,4 +1,4 @@
-﻿schema {
+schema {
   query: Queries
   mutation: Mutations
 }
@@ -12,8 +12,9 @@ type Queries {
 
 type Mutations {
   "Create a new product item"
-  createProduct(product: ProductCreateRequestInput!): ProductDto!
-  updateProduct(product: ProductUpdateRequestInput!): ProductDto!
+  createProduct(product: ProductCreateRequestInput!): ProductResponse!
+  updateProduct(product: ProductUpdateRequestInput!): ProductResponse!
+  removeProduct(productId: Int!): Boolean!
 }
 
 input ProductDtoFilterInput {
@@ -333,6 +334,23 @@ input ProductDescriptionFilterInput {
   productModelProductDescriptions: ListFilterInputTypeOfProductModelProductDescriptionFilterInput
 }
 
+input ProductUpdateRequestInput {
+  productId: Int!
+  name: String!
+  productNumber: Int
+}
+
+input ProductCreateRequestInput {
+  name: String!
+  productNumber: Int!
+}
+
+type ProductResponse {
+  productId: Int!
+  productNumber: Int!
+  name: String!
+}
+
 type ProductCategory {
   productCategoryId: Int!
   parentProductCategoryId: Int
@@ -342,16 +360,6 @@ type ProductCategory {
   inverseParentProductCategory: [ProductCategory!]!
   parentProductCategory: ProductCategory
   products: [Product!]!
-}
-
-input ProductUpdateRequestInput {
-  productId: Int!
-  name: String!
-}
-
-input ProductCreateRequestInput {
-  name: String!
-  productNumber: Int!
 }
 
 type ProductModel {

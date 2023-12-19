@@ -11,11 +11,11 @@ public class Program
 
 		builder.Services
 		.AddGraphProxyClientApi()
-		.ConfigureHttpClient(client => client.BaseAddress = new Uri("https://localhost:5000/graphql"));
+		.ConfigureHttpClient(client => client.BaseAddress = new Uri("https://localhost:5002/graphql"));
 
 		var app = builder.Build();
 
-		app.MapGet("/product/{id}",  async (int id) =>
+		app.MapGet("/product/{id}", async (int id) =>
 		{
 			var client = app.Services.GetRequiredService<IGraphProxyClientApi>();
 

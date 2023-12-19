@@ -1,6 +1,6 @@
 ﻿using DataAnnotatedModelValidations;
 using HotChocolate.Example.Infrastructure.Configurations.Persistence.AdventureWorks;
-using HotChocolate.Example.Infrastructure.Features.Products;
+using HotChocolate.Example.Infrastructure.Features.Products.Graphs;
 using HotChocolate.Types.Pagination;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +17,7 @@ public static class GraphqlConfigurationsExtensions
 	{
 		services
 			.AddGraphQLServer() //creating hotchocolate graph server
+			.InitializeOnStartup() //warm up request executor
 			.AddDataAnnotationsValidator() //auto validates models in middleware (no need to use modelstate is valid)
 			.RegisterDbContext<AdventureWorksContext>() //Hot chocolate can query the database context
 														//.AddAuthorization() //auth middleware for graphql
@@ -44,6 +45,7 @@ public static class GraphqlConfigurationsExtensions
 	/// <returns></returns>
 	public static IServiceCollection AddStrawberryShakeGraphQL(this IServiceCollection services)
 	{
+		//TODO
 		return services;
 	}
 }

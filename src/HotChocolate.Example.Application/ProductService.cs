@@ -3,11 +3,12 @@ using HotChocolate.Example.Domain.Products.Interfaces;
 
 namespace HotChocolate.Example.Application;
 
+//TODO: Implement real usecase
 public class ProductService : IProductService
 {
 	private readonly IProductAdapter _productAdapter;
 
-	public ProductService(IProductAdapter productAdapter)//, IMapper mapper)
+	public ProductService(IProductAdapter productAdapter)
 	{
 		_productAdapter = productAdapter;
 	}
@@ -15,6 +16,6 @@ public class ProductService : IProductService
 	public async Task<ProductResponse> GetProducts(int productId)
 	{
 		var products = await _productAdapter.GetProductById(productId);
-		return new ProductResponse(); // _mapper.Map<ProductResponse>(products);
+		return new ProductResponse();
 	}
 }

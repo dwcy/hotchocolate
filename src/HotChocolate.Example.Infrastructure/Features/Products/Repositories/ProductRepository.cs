@@ -47,12 +47,29 @@ internal sealed class ProductRepository : IProductRepository
 			await context.Products.AddAsync(product);
 			await context.SaveChangesAsync();
 
-			var response = await GetProducts(context, product.ProductId);
+			var response = await GetProduct(context, product.ProductId);
 			context.ChangeTracker.Clear();
 
 			return response;
 		}
 		catch (Exception e) { throw new Exception($"Could not create product: Reason: {e.InnerException.Message}"); }
+	}
+
+	public async Task<bool> RemoveProduct(int productId)
+	{
+		try
+		{
+			await using var context = await _context.CreateDbContextAsync();
+			var productToRemove = await context.Products.FirstOrDefaultAsync(x => x.ProductId == productId);
+			if (productToRemove == null)
+				throw new Exception("Product not found");
+
+			context.Products.Remove(productToRemove);
+			var rowsAffected = await context.SaveChangesAsync();
+
+			return rowsAffected > 0;
+		}
+		catch (Exception e) { throw new Exception($"Could not remove product: Reason: {e.InnerException.Message ?? e.Message}"); }
 	}
 
 	public async Task<ProductDto> UpdateProduct(Product product)
@@ -64,20 +81,24 @@ internal sealed class ProductRepository : IProductRepository
 		{
 			await using var context = await _context.CreateDbContextAsync();
 
-			context.Products.Update(product);
+			var entity = await context.Products.FirstOrDefaultAsync(x => x.ProductId == product.ProductId);
+			if (entity == null)
+				throw new Exception("Product not found");
+
+			entity.Name = product.Name;
+			entity.ProductNumber = product.ProductNumber ?? entity.ProductNumber;
+			context.Products.Update(entity);
 
 			await context.SaveChangesAsync();
 
-			var result = await GetProducts(context, product.ProductId);
 			context.ChangeTracker.Clear();
 
-			return result;
+			return await GetProduct(context, product.ProductId);
 		}
-		catch (DbUpdateException) { throw new Exception($"Cannot update product with id: {product.ProductId}, reason: product does not exist in the database"); }
-		catch (Exception e) { throw new Exception($"Could not update product: Reason: {e.InnerException.Message}"); }
+		catch (DbUpdateException e) { throw new Exception($"Could not update product: Reason: {e.InnerException.Message}"); }
 	}
 
-	private async Task<ProductDto> GetProducts(AdventureWorksContext context, int productId)
+	private async Task<ProductDto> GetProduct(AdventureWorksContext context, int productId)
 		=> await _mapper
 		.ProjectTo<ProductDto>(
 			ProductIncludingAllAsQuerable(context)

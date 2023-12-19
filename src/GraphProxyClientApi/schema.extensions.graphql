@@ -1,4 +1,4 @@
-﻿scalar _KeyFieldSet
+scalar _KeyFieldSet
 
 directive @key(fields: _KeyFieldSet!) on SCHEMA | OBJECT
 

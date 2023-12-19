@@ -10,4 +10,7 @@
     <PackageReference Include="StrawberryShake.Server" Version="13.7.0" />
     <PackageReference Include="StrawberryShake.Transport.Http" Version="13.7.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphFunctionApp\GraphFunctionApp.csproj" />
+  </ItemGroup>
 </Project>

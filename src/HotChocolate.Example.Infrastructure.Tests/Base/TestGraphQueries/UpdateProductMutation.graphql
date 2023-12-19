@@ -1,3 +1,10 @@
 mutation {
- 
+  updateProduct(product:{
+    productId: 1,
+    name: "Saffron premium",
+  }){
+    productId,
+    productNumber,
+    name
+  }
 }
