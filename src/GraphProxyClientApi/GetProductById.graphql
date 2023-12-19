@@ -3,5 +3,6 @@ query GetProductById($productId: Int!){
     productId
     name
     productNumber
+    
   }
 }
